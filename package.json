@@ -1,0 +1,26 @@
+{
+  "name": "zadanie15_6",
+  "version": "1.0.0",
+  "description": "React",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel script.js --out-file script-compiled.js"
+  },
+  "keywords": [
+    "react",
+    "babel"
+  ],
+  "author": "baku171",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^16.0.18",
+    "grunt": "^0.4.5",
+    "http-server": "^0.10.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "grunt-contrib-jshint": "^1.1.0"
+  }
+}

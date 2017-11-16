@@ -1,0 +1,31 @@
+body {
+    background-color: #5f5a5a;
+    text-align: center;
+}
+.controls {
+    font-size: 30px;
+    margin: 10px;
+}
+.button {
+    text-decoration: none;
+    /* border: solid 1px rgb(250, 249, 249); */
+    padding: 5px;
+    margin: 10px;
+    color: rgb(247, 243, 243);
+    /* border-radius: 3px; */
+
+}
+.stopwatch {
+    font-size: 40px;
+    color: #f0e8e8;
+}
+.results {
+    width: 200px;
+
+}
+
+.results > li {
+    color: #f0e8e8;
+    font-size: 20px;
+    border-bottom: solid 1px #f0e8e8;
+}

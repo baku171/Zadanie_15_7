@@ -1,0 +1,6 @@
+node_modules
+typings
+gruntfile.js
+typings.json
+.babelrc
+script-compiled.js
