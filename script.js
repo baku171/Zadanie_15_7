@@ -7,32 +7,30 @@ class Stopwatch extends React.Component {
             times: {
                 minutes: 0,
                 seconds: 0,
-                miliseconds: 0
+                milliseconds: 0
             }
         };
-        this.reset();
-        this.print(this.state.times);
     }
 
     reset() {
-        this.state.times = {
-            minutes: 0,
-            seconds: 0,
-            miliseconds: 0
-        };
-    }
-
-    print() {
-        // this.display.innerText = this.format(this.state.times);
+        this.setState({
+            times: {
+                minutes: 0,
+                seconds: 0,
+                milliseconds: 0
+            }
+        });
     }
 
     format(times) {
-        return `${this.pad0(times.minutes)}:${this.pad0(times.seconds)}:${this.pad0(Math.floor(times.miliseconds))}`;
+        return `${this.pad0(times.minutes)}:${this.pad0(times.seconds)}:${this.pad0(Math.floor(times.milliseconds))}`;
     }
 
     start() {
         if (!this.state.running) {
-            this.state.running = true;
+            this.setState({
+                running: true
+            });
             this.watch = setInterval(() => this.step(), 10);
         }
     }
@@ -40,32 +38,41 @@ class Stopwatch extends React.Component {
     step() {
         if (!this.state.running) return;
         this.calculate();
-        this.print();
     }
 
     calculate() {
-        this.state.times.miliseconds += 1;
-        if (this.state.times.miliseconds >= 100) {
-            this.state.times.seconds += 1;
-            this.state.times.miliseconds = 0;
+        let { minutes, seconds, milliseconds } = this.state.times;
+
+        milliseconds += 1;
+        if (milliseconds >= 100) {
+            seconds += 1;
+            milliseconds = 0;
         }
-        if (this.state.times.seconds >= 60) {
-            this.state.times.minutes += 1;
-            this.state.times.seconds = 0;
+        if (seconds >= 60) {
+            minutes += 1;
+            seconds = 0;
         }
+        this.setState({
+            times: {
+                minutes: minutes,
+                seconds: seconds,
+                milliseconds: milliseconds
+            }
+        });
     }
 
     stop() {
-        if (this.running) {
-            this.running = false;
+        if (this.state.running) {
+            this.setState({
+                running: false
+            });
             clearInterval(this.watch);
         }
     }
 
     zero() {
-        if (!this.running) {
+        if (!this.state.running) {
             this.reset();
-            this.print();
         }
     }
 
@@ -78,26 +85,18 @@ class Stopwatch extends React.Component {
     }
 
     save() {
-        this.addTimeToList(this.format(this.state.times), resultList);
+        this.addTimeToList(this.format(this.state.times));
     }
 
     addTimeToList(time) {
-        let element = [...this.state.resultList, time]
-        this.setState ({
-            resultList: element
-        })
+        this.setState((prevState, props) => ({
+            resultList: [...prevState.resultList, time]
+        }));
     }
 
     clear() {
-        if (this.running) {
-            this.stop();
-            this.zero();
-        }
-        this.clearList(resultList);
-    }
-
-    clearList()  {
-        this.setState ({
+        this.stop();
+        this.setState({
             resultList: []
         });
     }
@@ -112,30 +111,13 @@ class Stopwatch extends React.Component {
                     <a href='#' className='button' onClick={this.save.bind(this)}>Zapisz</a>
                     <a href='#' className='button' onClick={this.clear.bind(this)}>Wyczyść</a>
                 </div>
-                <div>{
-                    this.state.times.miliseconds
-                }
-                </div>
-                <ol className='results'>
-                    {
-                        this.state.resultList
-                        // var moviesElements = movies.map(function(movie) {
-                        //     return React.createElement(Movie, {
-                        //         key: movie.id,
-                        //         movie: movie
-                        //     });
-                        // });
-                    }
+                <div>{this.format(this.state.times)}</div>
+                <ol className="results">
+                    {this.state.resultList.map(item => <li key={item}>{item}</li>)}
                 </ol>
             </div>
         );
     }
 }
 
-
-// const stopwatch = new Stopwatch (document.querySelector('.stopwatch'));
-var resultList = document.querySelector('.results');
-
-ReactDOM.render(<Stopwatch/>,document.querySelector('.stopwatch'))
-
-
+ReactDOM.render(<Stopwatch/>, document.querySelector('.stopwatch'))
