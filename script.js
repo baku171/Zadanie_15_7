@@ -90,7 +90,7 @@ class Stopwatch extends React.Component {
 
     addTimeToList(time) {
         this.setState((prevState, props) => ({
-            resultList: [...prevState.resultList, time]
+            resultList: [...prevState.resultList, {'time': time, 'id': new Date().getTime()}]
         }));
     }
 
@@ -113,7 +113,7 @@ class Stopwatch extends React.Component {
                 </div>
                 <div>{this.format(this.state.times)}</div>
                 <ol className="results">
-                    {this.state.resultList.map(item => <li key={item}>{item}</li>)}
+                    {this.state.resultList.map(item => <li key={item.id}>{item.time}</li>)}
                 </ol>
             </div>
         );
